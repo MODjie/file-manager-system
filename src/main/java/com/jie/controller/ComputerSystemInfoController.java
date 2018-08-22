@@ -4,19 +4,23 @@ import com.jie.utils.SigarUtil;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+@RequestMapping(value = "/computerSystemInfo")
 @Controller
 public class ComputerSystemInfoController {
+	@RequestMapping("/getDiskInfos")
 	public void getDiskInfos(){
 		try {
 			FileSystem fslist[] = SigarUtil.getDiskInfo();
-//			for (int i = 0; i < fslist.length; i++) {
+			for (int i = 0; i < fslist.length; i++) {
 //				System.out.println("分区的盘符名称" + i);
-//				FileSystem fs = fslist[i];
+				FileSystem fs = fslist[i];
 //				// 分区的盘符名称
-//				System.out.println("盘符名称:    " + fs.getDevName());
+				System.out.println("盘符名称:    " + fs.getDevName());
 //				// 分区的盘符路径
-//				System.out.println("盘符路径:    " + fs.getDirName());
+				System.out.println("盘符路径:    " + fs.getDirName());
 //				System.out.println("盘符标志:    " + fs.getFlags());//
 //				// 文件系统类型，比如 FAT32、NTFS
 //				System.out.println("盘符类型:    " + fs.getSysTypeName());
@@ -55,9 +59,14 @@ public class ComputerSystemInfoController {
 //				}
 //				System.out.println(fs.getDevName() + "读出：    " + usage.getDiskReads());
 //				System.out.println(fs.getDevName() + "写入：    " + usage.getDiskWrites());
-//			}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@RequestMapping(value = "/test",method = RequestMethod.POST)
+	public String test(){
+		return "连接成功";
 	}
 }
