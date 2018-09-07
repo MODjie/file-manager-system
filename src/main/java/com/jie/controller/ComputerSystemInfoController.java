@@ -1,11 +1,15 @@
 package com.jie.controller;
 
+import com.jie.utils.ActionResult;
+import com.jie.utils.Results;
 import com.jie.utils.SigarUtil;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @RequestMapping(value = "/computerSystemInfo")
 @Controller
@@ -66,7 +70,13 @@ public class ComputerSystemInfoController {
 	}
 
 	@RequestMapping(value = "/test",method = RequestMethod.POST)
-	public String test(){
-		return "连接成功";
+	@ResponseBody
+	public ActionResult test(){
+		ActionResult actionResult = Results.success();
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.addObject("TEST","成功");
+//		return "actionResult";
+		return actionResult;
 	}
+
 }
