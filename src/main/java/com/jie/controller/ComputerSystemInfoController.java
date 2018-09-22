@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +88,22 @@ public class ComputerSystemInfoController {
 			e.printStackTrace();
 		}
 		actionResult.setData(diskList);
+		return actionResult;
+	}
+
+	@RequestMapping(value="getFolderList",method=RequestMethod.POST)
+	@ResponseBody
+	public  ActionResult getFolderList(Path dir) throws IOException{
+		ActionResult actionResult = Results.success();
+		List<Path> result = new ArrayList<>();
+		try (DirectoryStream<Path> diretoryStrem = Files.newDirectoryStream(dir)) {
+			for (Path entry: diretoryStrem) {
+				result.add(entry);
+			}
+		} catch (DirectoryIteratorException ex) {
+			throw ex.getCause();
+		}
+		actionResult.setData(result);
 		return actionResult;
 	}
 }

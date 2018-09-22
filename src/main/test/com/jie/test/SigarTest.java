@@ -1,9 +1,16 @@
 package com.jie.test;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import com.jie.utils.ActionResult;
+import com.jie.utils.Results;
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
@@ -20,34 +27,41 @@ import org.hyperic.sigar.Who;
 
 public class SigarTest {
 	public static void main(String[] args) {
+//		try {
+//			// System信息，从jvm获取
+//			property();
+//			System.out.println("----------------------------------");
+//			// cpu信息
+//			cpu();
+//			System.out.println("----------------------------------");
+//			// 内存信息
+//			memory();
+//			System.out.println("----------------------------------");
+//			// 操作系统信息
+//			os();
+//			System.out.println("----------------------------------");
+//			// 用户信息
+//			who();
+//			System.out.println("----------------------------------");
+//			// 文件系统信息
+//			file();
+//			System.out.println("----------------------------------");
+//			// 网络信息
+//			net();
+//			System.out.println("----------------------------------");
+//			// 以太网信息
+//			ethernet();
+//			System.out.println("----------------------------------");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
+		Path dir = Paths.get("D:/");
 		try {
-			// System信息，从jvm获取
-			property();
-			System.out.println("----------------------------------");
-			// cpu信息
-			cpu();
-			System.out.println("----------------------------------");
-			// 内存信息
-			memory();
-			System.out.println("----------------------------------");
-			// 操作系统信息
-			os();
-			System.out.println("----------------------------------");
-			// 用户信息
-			who();
-			System.out.println("----------------------------------");
-			// 文件系统信息
-			file();
-			System.out.println("----------------------------------");
-			// 网络信息
-			net();
-			System.out.println("----------------------------------");
-			// 以太网信息
-			ethernet();
-			System.out.println("----------------------------------");
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			List<Path> paths = getForderList(dir);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	private static void property() throws UnknownHostException {
@@ -272,5 +286,18 @@ public class SigarTest {
 			System.out.println(cfg.getName() + "网卡描述信息:" + cfg.getDescription());// 网卡描述信息
 			System.out.println(cfg.getName() + "网卡类型" + cfg.getType());//
 		}
+	}
+
+	public static List<Path> getForderList(Path dir) throws IOException{
+		List<Path> result = new ArrayList<>();
+		try (DirectoryStream<Path> diretoryStrem = Files.newDirectoryStream(dir)) {
+			for (Path entry: diretoryStrem) {
+				result.add(entry);
+			}
+		} catch (DirectoryIteratorException ex) {
+			// I/O error encounted during the iteration, the cause is an IOException
+			throw ex.getCause();
+		}
+		return result;
 	}
 }

@@ -10,15 +10,15 @@ public class Disk {
 	 */
 	private String diskPath;
 	/**
-	 * 文件系统总大小
+	 * 文件系统总大小(KB)
 	 */
 	private double total;
 	/**
-	 * 剩余大小
+	 * 剩余大小(KB)
 	 */
 	private double free;
 	/**
-	 * 可用大小
+	 * 可用大小(KB)
 	 */
 	private double avail;
 	/**
