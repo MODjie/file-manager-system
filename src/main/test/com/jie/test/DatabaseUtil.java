@@ -1,8 +1,5 @@
 package com.jie.test;
 
-import com.jie.domain.codegenerater.ColunmModel;
-import com.jie.domain.codegenerater.PropertyModel;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -196,22 +196,37 @@ public class DatabaseUtil {
 
 		Connection conn = getConnection();
 		PreparedStatement pStemt = null;
+		ResultSet rs = null;
 		String tableSql = SQL + tableName;
 		try {
 			pStemt = conn.prepareStatement(tableSql);
 			//结果集元数据
 			ResultSetMetaData rsmd = pStemt.getMetaData();
+			List<String> columnComments = new ArrayList<>();//列名注释集合
+			rs = pStemt.executeQuery("show full columns from " + tableName);
+			while (rs.next()) {
+				columnComments.add(rs.getString("Comment"));
+			}
 			//表列数
 			int size = rsmd.getColumnCount();
 			for (int i = 0; i < size; i++) {
 				ColunmModel colunmModel = new ColunmModel();
 				colunmModel.setPropertyName(rsmd.getColumnName(i + 1));
 				colunmModel.setPropertyType(rsmd.getColumnTypeName(i + 1));
+				colunmModel.setNotes(columnComments.get(i));
 				colunmModels.add(colunmModel);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+					closeConnection(conn);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if (pStemt != null) {
 				try {
 					pStemt.close();

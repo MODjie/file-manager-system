@@ -2,6 +2,11 @@ package ${packagePath};
 
 public class ${className} {
     <#list colunmModels as column>
+    <#if column.notes != "">
+    /**
+	 * ${column.notes}
+	 */
+    </#if>
     private ${column.propertyType} ${column.propertyName};
     </#list>
 

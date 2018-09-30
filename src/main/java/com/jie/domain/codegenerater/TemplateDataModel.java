@@ -2,7 +2,7 @@ package com.jie.domain.codegenerater;
 
 import java.util.List;
 
-public class PropertyModel {
+public class TemplateDataModel {
 	/**
 	 * 包路径
 	 */
