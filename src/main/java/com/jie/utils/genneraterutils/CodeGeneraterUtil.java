@@ -131,19 +131,64 @@ public class CodeGeneraterUtil {
 	 * @param columName
 	 * @return
 	 */
-	public TemplateDataModel getTemplateDataModel(String columName,String suffixPackagePath){
+	public TemplateDataModel getTemplateDataModel(String columName,String prefixPackagePath, String suffixPackagePath){
 
 		TemplateDataModel templateDataModel = new TemplateDataModel();
-		templateDataModel.setPackagePath("com.jie."+suffixPackagePath);
+		if (suffixPackagePath.equals("javaMapper")){
+			suffixPackagePath = "mapper";
+		}
+		templateDataModel.setPackagePath(prefixPackagePath+suffixPackagePath);
 		String className = getClassName(columName);
 		templateDataModel.setClassName(className);
+		String prefixLowercaseClassname = getPrefixLowercaseClassName(columName);
+		templateDataModel.setPrefixLowercaseClassName(prefixLowercaseClassname);
+		String uppercaseClassName = getUppercaseClassName(columName);
+		templateDataModel.setUppercaseClassName(uppercaseClassName);
+
+		List<String> importClasspaths = getImportClassPaths(columName,prefixPackagePath,suffixPackagePath);
+		templateDataModel.setImportClassPaths(importClasspaths);
+
 		List<ColunmModel> colunmModels = DatabaseUtil.getPropertyModels(columName);
 		for (ColunmModel colunmModel : colunmModels) {
 			DatabaseUtil.convertDbTypeToJava(colunmModel);
 			String newName = DatabaseUtil.lineToHump(colunmModel.getPropertyName());
 			colunmModel.setPropertyName(newName);
 		}
+		templateDataModel.setColunmModels(colunmModels);
 		return templateDataModel;
+	}
+
+	/**
+	 * 获取导入类的路径集合
+	 * @param columName
+	 * @param prefixPackagePath
+	 * @param suffixPackagePath
+	 * @return
+	 */
+	private List<String> getImportClassPaths(String columName,String prefixPackagePath,String suffixPackagePath){
+		String className = getClassName(columName);
+		String prefixLowercaseClassname = getPrefixLowercaseClassName(columName);
+		List<String> importClasspaths = new ArrayList<>();
+
+		switch (suffixPackagePath){
+			case "biz":
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
+				break;
+			case "impl":
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".biz."+className+"Biz;");
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".mapper."+className+"Mapper;");
+				break;
+			case "mapper":
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
+				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
+				break;
+			default:
+				break;
+		}
+		return importClasspaths;
 	}
 
 	/**
@@ -151,13 +196,33 @@ public class CodeGeneraterUtil {
 	 * @param columName
 	 * @return
 	 */
-	private String getClassName(String columName){
+	public String getClassName(String columName){
 		String className = DatabaseUtil.lineToHump(columName);
 		String suffixStr = className.substring(1);
 		char prefixChar = className.charAt(0);
 		String prefixStr = String.valueOf(prefixChar);
-		String newClassName =prefixStr+suffixStr;
+		String newClassName =prefixStr.toUpperCase()+suffixStr;
 		return newClassName;
+	}
+
+	/**
+	 * 获取首字母小写的类名
+	 * @param columName
+	 * @return
+	 */
+	private String getPrefixLowercaseClassName(String columName){
+		String className = DatabaseUtil.lineToHump(columName);
+		return className;
+	}
+
+	/**
+	 * 获取首字母小写的类名
+	 * @param columName
+	 * @return
+	 */
+	private String getUppercaseClassName(String columName){
+		String className = DatabaseUtil.lineToHump(columName);
+		return className.toUpperCase();
 	}
 
 	/**
@@ -170,7 +235,6 @@ public class CodeGeneraterUtil {
 		Map<String,Path> folderMap = generateOutputFolder();
 		Path model = null;
 		String modelName = getModelName().toString();
-		String outputModelPath = folderMap.get(key).toString();
 		switch (key){
 			case "domain":
 				model = Paths.get(folderMap.get(key).toString(),modelName+".java");

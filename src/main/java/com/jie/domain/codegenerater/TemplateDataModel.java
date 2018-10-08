@@ -11,9 +11,22 @@ public class TemplateDataModel {
 	 * 类名
 	 */
 	private String className;
-
+	/**
+	 * 首字母小写的类名
+	 */
+	private String prefixLowercaseClassName;
+	/**
+	 * 全大写的类名
+	 */
+	private String uppercaseClassName;
+	/**
+	 * 表模型集合
+	 */
 	private List<ColunmModel> colunmModels;
-
+	/**
+	 * 要导入的类路径
+	 */
+	private List<String> importClassPaths;
 	public String getPackagePath() {
 		return packagePath;
 	}
@@ -36,5 +49,29 @@ public class TemplateDataModel {
 
 	public void setColunmModels(List<ColunmModel> colunmModels) {
 		this.colunmModels = colunmModels;
+	}
+
+	public List<String> getImportClassPaths() {
+		return importClassPaths;
+	}
+
+	public void setImportClassPaths(List<String> importClassPaths) {
+		this.importClassPaths = importClassPaths;
+	}
+
+	public String getPrefixLowercaseClassName() {
+		return prefixLowercaseClassName;
+	}
+
+	public void setPrefixLowercaseClassName(String prefixLowercaseClassName) {
+		this.prefixLowercaseClassName = prefixLowercaseClassName;
+	}
+
+	public String getUppercaseClassName() {
+		return uppercaseClassName;
+	}
+
+	public void setUppercaseClassName(String uppercaseClassName) {
+		this.uppercaseClassName = uppercaseClassName;
 	}
 }

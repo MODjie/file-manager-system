@@ -1,6 +1,6 @@
 package ${packagePath};
 
-public class ${className} {
+public class ${className}Dto {
     <#list colunmModels as column>
     <#if column.notes != "">
     /**

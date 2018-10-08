@@ -41,34 +41,32 @@ public class FreeMarkerTest {
 	}
 
 	public static void main(String[] args) {
-//		TemplateDataModel templateDataModel = new TemplateDataModel();
-//		templateDataModel.setPackagePath("com.jie.domain");
-//		templateDataModel.setClassName("MdmConsign");
-//		List<ColunmModel> colunmModels = DatabaseUtil.getPropertyModels("mdm_consign");
-//		for (ColunmModel colunmModel : colunmModels) {
-//			DatabaseUtil.convertDbTypeToJava(colunmModel);
-//			String newName = DatabaseUtil.lineToHump(colunmModel.getPropertyName());
-//			colunmModel.setPropertyName(newName);
-//		}
-//		templateDataModel.setColunmModels(colunmModels);
-
 		CodeGeneraterUtil codeGeneraterUtil = new CodeGeneraterUtil();
 
 		Map<String,TemplateDataModel> templateDataModelMap = new HashMap<>();
 		TemplateDataModel templateDataModel = new TemplateDataModel();
-		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","domain");
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","domain");
 		templateDataModelMap.put("domain",templateDataModel);
-		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","condition");
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","condition");
 		templateDataModelMap.put("condition",templateDataModel);
-		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","dto");
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","dto");
 		templateDataModelMap.put("dto",templateDataModel);
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","biz");
+		templateDataModelMap.put("biz",templateDataModel);
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","impl");
+		templateDataModelMap.put("impl",templateDataModel);
+		templateDataModel = codeGeneraterUtil.getTemplateDataModel("mdm_consign","com.jie.","javaMapper");
+		templateDataModelMap.put("javaMapper",templateDataModel);
 
-		String modelName = "MdmConsign";
+		String modelName = codeGeneraterUtil.getClassName("mdm_consign");
 
 		Map<String,String> templateMap = new HashMap<>();
 		templateMap.put("domain","domainTemplate.ftl");
 		templateMap.put("condition","conditionTemplate.ftl");
 		templateMap.put("dto","dtoTemplate.ftl");
+		templateMap.put("biz","bizTemplate.ftl");
+		templateMap.put("impl","bizImplTemplate.ftl");
+		templateMap.put("javaMapper","javaMapperTemplate.ftl");
 
 		codeGeneraterUtil.generateTemplate(templateDataModelMap,"C:/Users/user/Desktop/"+modelName,templateMap);
 	}
