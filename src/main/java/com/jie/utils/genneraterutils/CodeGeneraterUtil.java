@@ -134,7 +134,7 @@ public class CodeGeneraterUtil {
 	public TemplateDataModel getTemplateDataModel(String columName,String prefixPackagePath, String suffixPackagePath){
 
 		TemplateDataModel templateDataModel = new TemplateDataModel();
-		if (suffixPackagePath.equals("javaMapper")){
+		if (suffixPackagePath.contains("apper")){
 			suffixPackagePath = "mapper";
 		}
 		templateDataModel.setPackagePath(prefixPackagePath+suffixPackagePath);
@@ -144,6 +144,10 @@ public class CodeGeneraterUtil {
 		templateDataModel.setPrefixLowercaseClassName(prefixLowercaseClassname);
 		String uppercaseClassName = getUppercaseClassName(columName);
 		templateDataModel.setUppercaseClassName(uppercaseClassName);
+		templateDataModel.setTableName(columName);
+		templateDataModel.setNamespace(prefixPackagePath+suffixPackagePath+"."+className+"Mapper");
+		templateDataModel.setDomainPath(prefixPackagePath+"domain."+className);
+		templateDataModel.setConditionPath(prefixPackagePath+"condition."+className+"Condition");
 
 		List<String> importClasspaths = getImportClassPaths(columName,prefixPackagePath,suffixPackagePath);
 		templateDataModel.setImportClassPaths(importClasspaths);
@@ -151,11 +155,27 @@ public class CodeGeneraterUtil {
 		List<ColunmModel> colunmModels = DatabaseUtil.getPropertyModels(columName);
 		for (ColunmModel colunmModel : colunmModels) {
 			DatabaseUtil.convertDbTypeToJava(colunmModel);
+			colunmModel.setColumName(colunmModel.getPropertyName());
 			String newName = DatabaseUtil.lineToHump(colunmModel.getPropertyName());
 			colunmModel.setPropertyName(newName);
+			String prefixUppcasePropertyName = getPrefixUppercasePropertyName(newName);
+			colunmModel.setPrefixUppercasePropertyName(prefixUppcasePropertyName);
 		}
 		templateDataModel.setColunmModels(colunmModels);
 		return templateDataModel;
+	}
+
+	/**
+	 * 获取首字母大写的属性名
+	 * @param propertyName
+	 * @return
+	 */
+	public String getPrefixUppercasePropertyName(String propertyName){
+		String suffixStr = propertyName.substring(1);
+		char prefixChar = propertyName.charAt(0);
+		String prefixStr = String.valueOf(prefixChar);
+		String newPropertyName =prefixStr.toUpperCase()+suffixStr;
+		return newPropertyName;
 	}
 
 	/**
@@ -172,18 +192,18 @@ public class CodeGeneraterUtil {
 
 		switch (suffixPackagePath){
 			case "biz":
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
+				importClasspaths.add(prefixPackagePath+"domain."+className+";");
+				importClasspaths.add(prefixPackagePath+"condition."+className+"Condition;");
 				break;
 			case "impl":
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".biz."+className+"Biz;");
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".mapper."+className+"Mapper;");
+				importClasspaths.add(prefixPackagePath+"biz."+className+"Biz;");
+				importClasspaths.add(prefixPackagePath+"domain."+className+";");
+				importClasspaths.add(prefixPackagePath+"condition."+className+"Condition;");
+				importClasspaths.add(prefixPackagePath+"mapper."+className+"Mapper;");
 				break;
 			case "mapper":
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".condition."+className+"Condition;");
-				importClasspaths.add(prefixPackagePath+prefixLowercaseClassname+".domain."+className+";");
+				importClasspaths.add(prefixPackagePath+"domain."+className+";");
+				importClasspaths.add(prefixPackagePath+"condition."+className+"Condition;");
 				break;
 			default:
 				break;
@@ -216,7 +236,7 @@ public class CodeGeneraterUtil {
 	}
 
 	/**
-	 * 获取首字母小写的类名
+	 * 获取字母全部大写类名
 	 * @param columName
 	 * @return
 	 */

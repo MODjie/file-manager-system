@@ -53,7 +53,7 @@ public class ${className}BizImpl implements ${className}Biz {
 	}
 
 	public void insert(${className} ${prefixLowercaseClassName}) throws TableException {
-        Assert.notNull(mdmSettlement, "${prefixLowercaseClassName} can not be null.");
+        Assert.notNull(${prefixLowercaseClassName}, "${prefixLowercaseClassName} can not be null.");
 
         if (${prefixLowercaseClassName}Mapper.insert(${prefixLowercaseClassName}) <= 0) {
             throw new TableException(TableOperation.Insert,  ${uppercaseClassName}_TABLE);

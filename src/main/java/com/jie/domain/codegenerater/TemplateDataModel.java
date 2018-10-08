@@ -27,6 +27,22 @@ public class TemplateDataModel {
 	 * 要导入的类路径
 	 */
 	private List<String> importClassPaths;
+	/**
+	 * 表名
+	 */
+	private String tableName;
+	/**
+	 * mapper.xml文件命名空间
+	 */
+	private String namespace;
+	/**
+	 * domain类所在相对路径
+	 */
+	private String domainPath;
+	/**
+	 * condition类所在相对路径
+	 */
+	private String conditionPath;
 	public String getPackagePath() {
 		return packagePath;
 	}
@@ -73,5 +89,37 @@ public class TemplateDataModel {
 
 	public void setUppercaseClassName(String uppercaseClassName) {
 		this.uppercaseClassName = uppercaseClassName;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+
+	public String getDomainPath() {
+		return domainPath;
+	}
+
+	public void setDomainPath(String domainPath) {
+		this.domainPath = domainPath;
+	}
+
+	public String getConditionPath() {
+		return conditionPath;
+	}
+
+	public void setConditionPath(String conditionPath) {
+		this.conditionPath = conditionPath;
 	}
 }

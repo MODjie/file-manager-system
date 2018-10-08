@@ -1,6 +1,12 @@
 package ${packagePath};
 
-public class ${className}Condition {
+import com.sinoservices.minima.common.bo.BaseCondition;
+import com.sinoservices.minima.mybatis.paging.PagingCondition;
+
+public class ${className}Condition extends PagingCondition implements BaseCondition {
+
+    private static final long serialVersionUID = 1L;
+
     <#list colunmModels as column>
     <#if column.notes != "">
     /**
@@ -11,12 +17,12 @@ public class ${className}Condition {
     </#list>
 
     <#list colunmModels as column>
-    public ${column.propertyType} get${column.propertyName}(){
-        return ${column.propertyName};
+    public void set${column.prefixUppercasePropertyName}(${column.propertyType} ${column.propertyName}){
+        this.${column.propertyName} = ${column.propertyName};
     }
 
-    public void set${column.propertyName}(${column.propertyType} ${column.propertyName}){
-        this.${column.propertyName} = ${column.propertyName};
+    public ${column.propertyType} get${column.prefixUppercasePropertyName}(){
+        return ${column.propertyName};
     }
     </#list>
 }

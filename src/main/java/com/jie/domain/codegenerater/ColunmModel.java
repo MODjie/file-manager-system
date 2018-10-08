@@ -2,9 +2,17 @@ package com.jie.domain.codegenerater;
 
 public class ColunmModel {
 	/**
+	 * 列名
+	 */
+	private String columName;
+	/**
 	 * 属性名
 	 */
 	private String propertyName;
+	/**
+	 * 属性名（首字母大写）
+	 */
+	private String prefixUppercasePropertyName;
 	/**
 	 * 属性类型
 	 */
@@ -36,5 +44,21 @@ public class ColunmModel {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public String getColumName() {
+		return columName;
+	}
+
+	public void setColumName(String columName) {
+		this.columName = columName;
+	}
+
+	public String getPrefixUppercasePropertyName() {
+		return prefixUppercasePropertyName;
+	}
+
+	public void setPrefixUppercasePropertyName(String prefixUppercasePropertyName) {
+		this.prefixUppercasePropertyName = prefixUppercasePropertyName;
 	}
 }

@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 
 public class DatabaseUtil {
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://192.168.0.173:3306/4.1_dev_jlt_saas?useUnicode=true&characterEncoding=utf8";
-	private static final String USERNAME = "fmt_root";
-	private static final String PASSWORD = "sino123456";
+	private static final String URL = "jdbc:mysql://192.168.0.173:3306/dev_jlt_saas?useUnicode=true&characterEncoding=utf8";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "R5z622#m";
 
 	private static final String SQL = "SELECT * FROM ";// 数据库操作
 
